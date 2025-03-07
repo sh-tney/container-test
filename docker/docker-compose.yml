@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  # Production service - uses the built container without volumes
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    # No volumes in production mode to use the built app
+
+  # Development service - includes volume mount for live development
+  app-dev:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    volumes:
+      - ../server:/app
+    # Override the command to run the dev script instead of the built app
+    command: npm run dev
+
