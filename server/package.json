@@ -1,10 +1,10 @@
 {
   "name": "container-test",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsc --build --verbose; node ./dist/app.js",
+    "start": "tsc --build --verbose; node ./dist/app.js",
     "build": "tsc --build --verbose"
   },
   "keywords": [],
