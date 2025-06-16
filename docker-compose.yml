@@ -1,0 +1,28 @@
+services:
+
+  # Express server development service
+  server-node-express-dev:
+    build:
+      context: ./server-node-express
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    volumes:
+      - ./server-node-express:/app
+    # Override the command to run the dev script instead of the built app
+    command: npm run start
+
+  # Native server development service
+  server-node-native-dev:
+    build:
+      context: ./server-node-native
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    restart: unless-stopped
+    volumes:
+      - ./server-node-native:/app
+    # Override the command to run the dev script instead of the built app
+    command: npm run start
+
