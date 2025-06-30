@@ -1,8 +1,13 @@
-import { Request, Response, NextFunction } from 'express';
-import { ConsoleLogger } from '../logger';
+import type { NextFunction, Request, Response } from "express";
+import { ConsoleLogger } from "../logger";
 
-export function errorMiddleware(error: Error, req: Request, res: Response, next: NextFunction): void {
-    const logger = ConsoleLogger.getInstance();
-    logger.error(`uh oh: ${error.message}`);
-    next();
+export function errorMiddleware(
+	error: Error,
+	_req: Request,
+	_res: Response,
+	next: NextFunction,
+): void {
+	const logger = ConsoleLogger.getInstance();
+	logger.error(`uh oh: ${error.message}`);
+	next();
 }

@@ -14,28 +14,31 @@ export interface ILogger {
 export type LoggerContext = {
 	traceId?: string;
 	userId?: string;
-} & { [key: string]: any };
+} & { [key: string]: unknown };
 
-type LogLevel = 'DEBUG' | 'INFO' | 'WARN' | 'ERROR';
-const LOG_OUTPUTS: Record<LogLevel, (message?: any, ...optionalParams: any[]) => void> = {
+type LogLevel = "DEBUG" | "INFO" | "WARN" | "ERROR";
+const LOG_OUTPUTS: Record<
+	LogLevel,
+	(message?: unknown, ...optionalParams: unknown[]) => void
+> = {
 	DEBUG: console.debug,
 	INFO: console.info,
 	WARN: console.warn,
-	ERROR: console.error
-}
+	ERROR: console.error,
+};
 
 export class ConsoleLogger implements ILogger {
 	private static instance: ConsoleLogger;
 
-
 	private globalContext: LoggerContext = {};
-	public asyncContext: AsyncLocalStorage<LoggerContext> = new AsyncLocalStorage();
+	public asyncContext: AsyncLocalStorage<LoggerContext> =
+		new AsyncLocalStorage();
 
 	public get context(): LoggerContext {
 		return {
 			...this.globalContext,
-			...this.asyncContext.getStore()
-		}
+			...this.asyncContext.getStore(),
+		};
 	}
 
 	public static getInstance(): ConsoleLogger {
@@ -59,29 +62,31 @@ export class ConsoleLogger implements ILogger {
 
 	public addContext(context: LoggerContext): void {
 		const store = this.asyncContext.getStore();
-		if (!store);
+		if (!store) return;
 		console.log(`added ${context.traceId}`);
 		store.traceId = context.traceId;
 	}
 
-
 	public debug(message: string, context?: LoggerContext): void {
-		this.log('DEBUG', message, context);
+		this.log("DEBUG", message, context);
 	}
 
 	public info(message: string, context?: LoggerContext): void {
-		this.log('INFO', message, context);
+		this.log("INFO", message, context);
 	}
 
 	public warn(message: string, context?: LoggerContext): void {
-		this.log('WARN', message, context);
+		this.log("WARN", message, context);
 	}
 
 	public error(message: string, context?: LoggerContext): void {
-		this.log('ERROR', message, context);
+		this.log("ERROR", message, context);
 	}
 
 	private log(level: LogLevel, message: string, context?: LoggerContext): void {
-		LOG_OUTPUTS[level](`${level}: "${message}"`, { ...this.context, ...context });
+		LOG_OUTPUTS[level](`${level}: "${message}"`, {
+			...this.context,
+			...context,
+		});
 	}
 }

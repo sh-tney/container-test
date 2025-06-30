@@ -1,31 +1,30 @@
-import * as express from "express";
-import type { Express, Request, Response } from "express";
-import { ConsoleLogger } from "./logger";
 import { randomUUID } from "node:crypto";
-import { logMiddleware } from "./middleware/logMiddleware";
-import { errorMiddleware } from "./middleware/errorMiddleware";
+import type { Express, Request, Response } from "express";
+import * as express from "express";
+import { ConsoleLogger } from "./logger";
 import { anotherMiddleware } from "./middleware/anotherMiddleware";
+import { errorMiddleware } from "./middleware/errorMiddleware";
+import { logMiddleware } from "./middleware/logMiddleware";
 
 export const app: Express = express();
-
 
 app.use(logMiddleware);
 
 app.use(anotherMiddleware);
 
-app.get("/", async (req: Request, res: Response) => {
+app.get("/", async (_req: Request, _res: Response) => {
 	const logger = ConsoleLogger.getInstance();
 
 	const traceId = randomUUID();
-	logger.info(`start`, { position: 'start', a: 1 });
+	logger.info(`start`, { position: "start", a: 1 });
 
 	logger.addContext({ traceId });
 
-	logger.info('here', { position: 'here', b: 2 });
+	logger.info("here", { position: "here", b: 2 });
 
-	await new Promise(resolve => setTimeout(resolve, 5000));
+	await new Promise((resolve) => setTimeout(resolve, 5000));
 
-	logger.info(`almost done`, { position: 'done', c: 3 });
+	logger.info(`almost done`, { position: "done", c: 3 });
 
 	throw new Error(`something bad happened`);
 
