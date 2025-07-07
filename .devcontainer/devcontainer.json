@@ -1,8 +1,8 @@
 {
-	"name": "dev",
+	"name": "dc",
 	"dockerComposeFile": "docker-compose.localdev.yml",
 	"service": "dev",
-	"workspaceFolder": "/workspace",
+	"workspaceFolder": "/container-test",
 	"forwardPorts": [
 		3000,
 		3001
