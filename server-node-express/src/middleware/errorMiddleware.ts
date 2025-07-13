@@ -1,13 +1,15 @@
 import type { NextFunction, Request, Response } from "express";
-import { ConsoleLogger } from "../logger";
+import logger from "../utils/logger";
 
-export function errorMiddleware(
+export default function errorMiddleware(
 	error: Error,
 	_req: Request,
-	_res: Response,
+	res: Response,
 	next: NextFunction,
 ): void {
-	const logger = ConsoleLogger.getInstance();
-	logger.error(`uh oh: ${error.message}`);
+	logger.error(`Uncaught Error: ${error.message}`, { error });
+
+	if (!res.headersSent) res.send().status(500);
+
 	next();
 }
