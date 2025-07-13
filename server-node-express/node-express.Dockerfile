@@ -8,6 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
+RUN npm i -g typescript
 RUN npm install
 
 # Copy the rest of the application code
@@ -17,4 +18,4 @@ COPY . ./
 RUN npm run build
 
 # Command to run the application
-CMD ["node", "./dist/app.js"] 
+CMD ["node", "./dist/index.js"] 
