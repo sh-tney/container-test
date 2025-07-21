@@ -3,7 +3,7 @@ import { AsyncLocalStorage } from "node:async_hooks";
 /**
  * Represents a structured logging context, which may include a traceId and any additional key-value pairs.
  */
-export type LogAttributes = {
+type LogAttributes = {
 	traceId?: string;
 } & { [key: string]: unknown };
 
